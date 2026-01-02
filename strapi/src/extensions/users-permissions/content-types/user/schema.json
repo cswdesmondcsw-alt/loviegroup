@@ -1,0 +1,121 @@
+{
+  "kind": "collectionType",
+  "collectionName": "up_users",
+  "info": {
+    "name": "user",
+    "description": "",
+    "singularName": "user",
+    "pluralName": "users",
+    "displayName": "User"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user_id": {
+      "type": "uid",
+      "targetField": "username",
+      "required": true
+    },
+    "cloud_role": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "user",
+        "provider"
+      ]
+    },
+    "provider": {
+      "type": "string",
+      "configurable": false
+    },
+    "cloud_rank": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "user",
+        "admin",
+        "manager",
+        "executive"
+      ]
+    },
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "unique": true,
+      "configurable": false,
+      "required": true
+    },
+    "country_code": {
+      "type": "integer"
+    },
+    "mobile_no": {
+      "type": "biginteger"
+    },
+    "email": {
+      "type": "email",
+      "minLength": 6,
+      "configurable": false,
+      "required": true,
+      "unique": true
+    },
+    "password": {
+      "type": "password",
+      "minLength": 6,
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "resetPasswordToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.role",
+      "inversedBy": "users",
+      "configurable": false
+    },
+    "otp": {
+      "type": "string"
+    },
+    "otpExpiresAt": {
+      "type": "datetime"
+    },
+    "tenants": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tenant.tenant"
+    }
+  }
+}

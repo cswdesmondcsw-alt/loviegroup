@@ -1,0 +1,21 @@
+{
+  "name": "loviegroup",
+  "version": "1.0.0",
+  "main": "./lvg/src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev:loviegroup\" \"npm run dev:strapi\"",
+    "dev:loviegroup": "cd lvg && HOST=localhost PORT=5173 npm run dev",
+    "dev:strapi": "cd strapi && cross-env HOST=localhost PORT=1337 npm run strapi develop",
+    "start": "concurrently \"npm run start:loviegroup\" \"npm run start:strapi\"",
+    "start:loviegroup": "cd lvg && HOST=localhost PORT=5173 npm run start",
+    "start:strapi": "cd strapi && cross-env HOST=localhost PORT=5173 npm run start"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0"
+  }
+}
