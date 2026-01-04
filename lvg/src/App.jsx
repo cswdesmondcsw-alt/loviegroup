@@ -16,8 +16,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { ToastContainer } from "react-bootstrap";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // home pages
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -125,6 +125,7 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop>
+        <ToastContainer />
         <Suspense
           fallback={
             <div className="flone-preloader-wrapper">

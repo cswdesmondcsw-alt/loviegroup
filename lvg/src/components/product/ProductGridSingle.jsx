@@ -32,15 +32,15 @@ const ProductGridSingle = ({
           <Link to={"/product/" + product.id}>
             <img
               className="default-img"
-              src={product.image[0]}
-              alt=""
-            />
+               src={product.image[0]}
+               alt=""
+                />
             {product.image.length > 1 ? (
               <img
                 className="hover-img"
                 src={product.image[1]}
                 alt=""
-              />
+                />
             ) : (
               ""
             )}
@@ -86,7 +86,7 @@ const ProductGridSingle = ({
               ) : product.variation && product.variation.length >= 1 ? (
                 <Link to={`/product/${product.id}`}>
                   Select Option
-                </Link>
+                  </Link>
               ) : product.stock && product.stock > 0 ? (
                 <button
                   onClick={() => dispatch(addToCart(product))}
@@ -95,15 +95,16 @@ const ProductGridSingle = ({
                       ? "active"
                       : ""
                   }
-                  disabled={cartItem !== undefined && cartItem.quantity > 0}
                   title={
-                    cartItem !== undefined ? "Added to cart" : "Add to cart"
+                    cartItem !== undefined && cartItem.quantity > 0
+                      ? "Add more to cart"
+                      : "Add to cart"
                   }
                 >
                   {" "}
                   <i className="pe-7s-cart"></i>{" "}
                   {cartItem !== undefined && cartItem.quantity > 0
-                    ? "Added"
+                    ? "Add more"
                     : "Add to cart"}
                 </button>
               ) : (
@@ -122,7 +123,7 @@ const ProductGridSingle = ({
         <div className="product-content text-center">
           <h3>
             <Link to={"/product/" + product.id}>
-              {product.name}
+            {product.name}
             </Link>
           </h3>
           {product.rating && product.rating > 0 ? (
