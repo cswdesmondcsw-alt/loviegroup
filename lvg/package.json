@@ -36,7 +36,6 @@
     "react-modal-video": "^2.0.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.6",
-    "react-toastify": "^11.0.5",
     "react-visibility-sensor": "^5.1.1",
     "redux-persist": "^6.0.0",
     "swiper": "^8.4.7",

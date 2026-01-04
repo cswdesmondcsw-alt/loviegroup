@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 // import cogoToast from 'cogo-toast';
 import { createSlice } from "@reduxjs/toolkit";
-import { toast } from 'react-toastify';
+import { toast } from "../../utils/toastService";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -73,15 +73,13 @@ const cartSlice = createSlice({
 
       // cogoToast.success("Added To Cart", {position: "bottom-left"});
       toast("Added To Cart", {
-        position: "bottom-left",
-                type: "success"
-            })
+        type: "success"
+      })
     },
     deleteFromCart(state, action) {
       state.cartItems = state.cartItems.filter(item => item.cartItemId !== action.payload);
       // cogoToast.error("Removed From Cart", {position: "bottom-left"});
       toast("Removed From Cart", {
-        position: "bottom-left",
         type: "error"
       })
     },
@@ -91,9 +89,8 @@ const cartSlice = createSlice({
                 state.cartItems = state.cartItems.filter(item => item.cartItemId !== product.cartItemId);
         // cogoToast.error("Removed From Cart", {position: "bottom-left"});
         toast("Removed From Cart", {
-          position: "bottom-left",
-                    type: "error"
-                })
+          type: "error"
+        })
       } else {
                 state.cartItems = state.cartItems.map(item =>
           item.cartItemId === product.cartItemId
@@ -102,9 +99,8 @@ const cartSlice = createSlice({
         );
         // cogoToast.warn("Item Decremented From Cart", {position: "bottom-left"});
         toast("Item Decremented From Cart", {
-          position: "bottom-left",
-                    type: "warning"
-                })
+          type: "warning"
+        })
       }
     },
     deleteAllFromCart(state) {

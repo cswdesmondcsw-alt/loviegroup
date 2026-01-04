@@ -9,7 +9,7 @@ This document describes all changes made to enable continuous Add to Cart behavi
 - The **Add to Cart button now always remains active** while a product is in stock, allowing users to add the same product multiple times.
 - Visual styling for items already in the cart is preserved, but the button copy and tooltip now clearly indicate that clicking again will **add more quantity**.
 - The incorrect cart removal toast message was fixed.
-- Toast notifications were properly re-integrated using `react-toastify` at the application root so feedback works consistently across all routes.
+- Toast notifications are now handled through a **global toast service** and a `ToastManager` component using **react-bootstrap** toasts, so feedback works consistently across all routes.
 - Add to Cart behavior is now **consistent across the entire app**, including:
   - Product grid cards (all variants)
   - List views
@@ -61,10 +61,19 @@ Removed cart-based disabling and aligned behavior and copy with the rest of the 
 ---
 
 ### Toast integration
+- `src/utils/toastService.js`
+- `src/components/ToastManager.jsx`
 - `src/App.jsx`
+- `src/store/slices/cart-slice.js`
+- `src/store/slices/wishlist-slice.js`
+- `src/store/slices/compare-slice.js`
 
 **Change:**  
-Replaced incorrect `react-bootstrap` ToastContainer usage with `react-toastify`, added required CSS, and rendered `<ToastContainer />` at the app root.
+Introduced a `toastService` helper (`registerToastHandler` / `showToast`) that allows Redux slices and other non-UI code to trigger toasts. A global `ToastManager` component (using `react-bootstrap` `Toast` / `ToastContainer`) is rendered from `App.jsx` and is responsible for:
+
+- Listening to `toastService` events and managing an internal `toasts` state array.
+- Rendering styled toasts with proper animations, auto-hide, and a close button.
+- Supporting per-toast positioning (e.g. `bottom-start`) while remaining fixed to the viewport.
 
 ---
 
@@ -72,7 +81,7 @@ Replaced incorrect `react-bootstrap` ToastContainer usage with `react-toastify`,
 
 - Enabled continuous Add to Cart interactions across the app while safely relying on the Redux cart slice to manage quantity increments.
 - Improved user clarity by updating button copy and tooltips instead of disabling interaction.
-- Fixed misleading cart notifications and stabilized toast behavior by correctly integrating `react-toastify`.
+- Fixed misleading cart notifications and stabilized toast behavior by introducing a global toast service and `ToastManager` based on `react-bootstrap` toasts, removing the dependency on `react-toastify`.
 - Ensured consistent Add to Cart UX across all product entry points.
 - Improved resilience of variant stock checks to prevent edge-case runtime errors.
 
