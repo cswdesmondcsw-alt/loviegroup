@@ -114,19 +114,16 @@ const Compare = () => {
                                             ? "active"
                                             : ""
                                         }
-                                        disabled={
+                                        title={
                                           cartItem !== undefined &&
                                           cartItem.quantity > 0
-                                        }
-                                        title={
-                                          compareItem !== undefined
-                                            ? "Added to cart"
+                                            ? "Add more to cart"
                                             : "Add to cart"
                                         }
                                       >
                                         {cartItem !== undefined &&
                                         cartItem.quantity > 0
-                                          ? "Added"
+                                          ? "Add more"
                                           : "Add to cart"}
                                       </button>
                                     ) : (

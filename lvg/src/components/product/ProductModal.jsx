@@ -265,10 +265,14 @@ function ProductModal({ product, currency, discountedPrice, finalProductPrice, f
                           selectedProductSize: selectedProductSize ? selectedProductSize : product.selectedProductSize ? product.selectedProductSize : null
                         }))
                       }
-                      disabled={productCartQty >= productStock}
+                      title={
+                        productCartQty > 0
+                          ? "Add more to cart"
+                          : "Add to cart"
+                      }
                     >
                       {" "}
-                      Add To Cart{" "}
+                      {productCartQty > 0 ? "Add more" : "Add To Cart"}{" "}
                     </button>
                   ) : (
                     <button disabled>Out of Stock</button>

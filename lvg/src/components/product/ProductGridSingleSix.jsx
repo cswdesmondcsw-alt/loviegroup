@@ -118,9 +118,10 @@ const ProductGridSingleSix = ({
                       ? "active"
                       : ""
                   }
-                  disabled={cartItem !== undefined && cartItem.quantity > 0}
                   title={
-                    cartItem !== undefined ? "Added to cart" : "Add to cart"
+                    cartItem !== undefined && cartItem.quantity > 0
+                      ? "Add more to cart"
+                      : "Add to cart"
                   }
                 >
                   <i className="pe-7s-cart"></i>

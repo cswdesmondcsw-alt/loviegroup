@@ -115,12 +115,9 @@ const ProductGridSingleFive = ({
                           ? "active"
                           : ""
                       }
-                      disabled={
-                        cartItem !== undefined && cartItem.quantity > 0
-                      }
                       title={
-                        cartItem !== undefined
-                          ? "Added to cart"
+                        cartItem !== undefined && cartItem.quantity > 0
+                          ? "Add more to cart"
                           : "Add to cart"
                       }
                     >

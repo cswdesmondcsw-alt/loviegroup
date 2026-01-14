@@ -96,15 +96,16 @@ const ProductGridListSingle = ({
                       ? "active"
                       : ""
                   }
-                  disabled={cartItem !== undefined && cartItem.quantity > 0}
                   title={
-                    cartItem !== undefined ? "Added to cart" : "Add to cart"
+                    cartItem !== undefined && cartItem.quantity > 0
+                      ? "Add more to cart"
+                      : "Add to cart"
                   }
                 >
                   {" "}
                   <i className="pe-7s-cart"></i>{" "}
                   {cartItem !== undefined && cartItem.quantity > 0
-                    ? "Added"
+                    ? "Add more"
                     : "Add to cart"}
                 </button>
               ) : (
@@ -244,19 +245,16 @@ const ProductGridListSingle = ({
                           ? "active"
                           : ""
                       }
-                      disabled={
-                        cartItem !== undefined && cartItem.quantity > 0
-                      }
                       title={
-                        cartItem !== undefined
-                          ? "Added to cart"
+                        cartItem !== undefined && cartItem.quantity > 0
+                          ? "Add more to cart"
                           : "Add to cart"
                       }
                     >
                       {" "}
                       <i className="pe-7s-cart"></i>{" "}
                       {cartItem !== undefined && cartItem.quantity > 0
-                        ? "Added"
+                        ? "Add more"
                         : "Add to cart"}
                     </button>
                   ) : (
