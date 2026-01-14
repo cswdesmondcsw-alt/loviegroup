@@ -112,6 +112,9 @@ const About = lazy(() => import("./pages/other/About"));
 const Contact = lazy(() => import("./pages/other/Contact"));
 const MyAccount = lazy(() => import("./pages/other/MyAccount"));
 const LoginRegister = lazy(() => import("./pages/other/LoginRegister"));
+const Register = lazy(() => import("./pages/other/Register"));
+const Login = lazy(() => import("./pages/other/Register"));
+const Fpw = lazy(() => import("./pages/other/Register"));
 
 const Cart = lazy(() => import("./pages/other/Cart"));
 const Wishlist = lazy(() => import("./pages/other/Wishlist"));
@@ -397,6 +400,21 @@ const App = () => {
             <Route
               path={"/login-register"}
               element={<LoginRegister />}
+            />
+
+            <Route
+              path={"/register"}
+              element={<Register />}
+            />
+
+            <Route
+              path={"/login"}
+              element={<Login />}
+            />
+
+            <Route
+              path={"/fpw"}
+              element={<Fpw />}
             />
 
             <Route

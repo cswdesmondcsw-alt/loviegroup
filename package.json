@@ -9,12 +9,14 @@
     "dev:strapi": "cd strapi && cross-env HOST=localhost PORT=1337 npm run strapi develop",
     "start": "concurrently \"npm run start:loviegroup\" \"npm run start:strapi\"",
     "start:loviegroup": "cd lvg && HOST=localhost PORT=5173 npm run start",
-    "start:strapi": "cd strapi && cross-env HOST=localhost PORT=5173 npm run start"
+    "start:strapi": "cd strapi && cross-env HOST=localhost PORT=1337 npm run start"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.967.0",
+    "@strapi/provider-email-amazon-ses": "^5.33.2",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0"
   }

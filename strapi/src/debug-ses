@@ -1,0 +1,34 @@
+const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
+
+async function testSes() {
+  const client = new SESClient({
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    },
+  });
+
+  try {
+    const res = await client.send(
+      new SendEmailCommand({
+        Source: "noreply@loviegroup.com",
+        Destination: {
+          ToAddresses: ["mfuzail21@gmail.com"],
+        },
+        Message: {
+          Subject: { Data: "SES code test (macOS)" },
+          Body: {
+            Text: { Data: "This email was sent purely from code." },
+          },
+        },
+      })
+    );
+
+    console.log("SES SEND SUCCESS:", res.MessageId);
+  } catch (err) {
+    console.error("SES SEND ERROR:", err);
+  }
+}
+
+module.exports = { testSes };

@@ -1,0 +1,8 @@
+const { testSes } = require("./debug-ses");
+
+module.exports = {
+  async bootstrap() {
+    console.log("BOOTSTRAP: running SES code-level test");
+    await testSes();
+  },
+};

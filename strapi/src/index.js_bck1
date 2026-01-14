@@ -1,0 +1,31 @@
+module.exports = {
+	async bootstrap() {
+		console.log('===== AWS REGION DEBUG =====');
+
+	console.log('process.env.AWS_REGION:', process.env.AWS_REGION);
+	console.log('process.env.AWS_DEFAULT_REGION:', process.env.AWS_DEFAULT_REGION);
+	console.log('process.env.AWS_PROFILE:', process.env.AWS_PROFILE);
+
+	try {
+		const fs = require('fs');
+		const path = require('path');
+		const os = require('os');
+
+		const awsConfigPath = path.join(os.homedir(), '.aws', 'config');
+		const awsCredsPath = path.join(os.homedir(), '.aws', 'credentials');
+
+		console.log('.aws/config exists:', fs.existsSync(awsConfigPath));
+		console.log('.aws/credentials exists:', fs.existsSync(awsCredsPath));
+
+		if (fs.existsSync(awsConfigPath)) {
+			console.log('---- ~/.aws/config ----');
+			console.log(fs.readFileSync(awsConfigPath, 'utf8'));
+			}
+	} catch (e) {
+		console.error('AWS FILE READ ERROR:', e);
+	}
+
+	console.log('==============================');
+	},
+};	
+
