@@ -44,7 +44,6 @@ const LoginRegister = () => {
     e.preventDefault();
 
     const result = await dispatch(loginThunk(loginData));
-    console.log("result", result);
     if (loginThunk.fulfilled.match(result)) {
       toast("Login successful", {
         type: "success",
@@ -146,8 +145,13 @@ const LoginRegister = () => {
                                   <label className="ml-10">Remember me</label>
                                   <Link to={"/"}>Forgot Password?</Link>
                                 </div>
-                                <button onClick={handleLoginSubmit}>
-                                  <span>Login</span>
+                                <button
+                                  onClick={handleLoginSubmit}
+                                  disabled={isLoading}
+                                >
+                                  <span>
+                                    {isLoading ? "Logging in..." : "Login"}
+                                  </span>
                                 </button>
                               </div>
                             </form>
@@ -180,8 +184,13 @@ const LoginRegister = () => {
                                 onChange={handleRegisterChange}
                               />
                               <div className="button-box">
-                                <button onClick={handleSubmit}>
-                                  <span>Register</span>
+                                <button
+                                  onClick={handleSubmit}
+                                  disabled={loading}
+                                >
+                                  <span>
+                                    {loading ? "Registering..." : "Register"}
+                                  </span>
                                 </button>
                               </div>
                             </form>

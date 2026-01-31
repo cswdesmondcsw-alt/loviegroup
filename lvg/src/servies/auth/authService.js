@@ -13,6 +13,20 @@ export const loginUser = async (loginData) => {
     throw error.response?.data || error;
   }
 };
+
+export const getMe = async (token) => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
 export const registerUser = async (payload) => {
   try {
     const response = await axios.post(
@@ -21,7 +35,6 @@ export const registerUser = async (payload) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
     throw error.response?.data || error;
   }
 };
