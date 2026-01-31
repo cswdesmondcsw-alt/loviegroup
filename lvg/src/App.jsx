@@ -18,6 +18,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ToastManager from "./components/ToastManager";
 import IsUserAccountConfirmedRoute from "./routes/IsUserAccountConfirmedRoute";
+import IsLoggedInUser from "./routes/IsLoggedInUser";
 
 // home pages
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -313,7 +314,14 @@ const App = () => {
                 </IsUserAccountConfirmedRoute>
               }
             />
-            <Route path={"/login-register"} element={<LoginRegister />} />
+            <Route
+              path={"/login-register"}
+              element={
+                <IsLoggedInUser>
+                  <LoginRegister />
+                </IsLoggedInUser>
+              }
+            />
 
             <Route path={"/register"} element={<Register />} />
 
