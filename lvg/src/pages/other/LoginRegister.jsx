@@ -1,14 +1,94 @@
-import React, { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Fragment, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import { registerUser } from "../../servies/auth/authService";
+import { toast } from "../../utils/toastService";
+import { useNavigate } from "react-router-dom";
+import { loginThunk } from "../../store/slices/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const LoginRegister = () => {
   let { pathname } = useLocation();
+  const {
+    user,
+    token,
+    isAuthenticated,
+    loading: isLoading,
+  } = useSelector((state) => state.authLogin);
+  const dispatch = useDispatch();
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+  const [registerUserData, setRegisterUserData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLoginChange = (e) => {
+    setLoginData({
+      ...loginData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+
+    const result = await dispatch(loginThunk(loginData));
+    console.log("result", result);
+    if (loginThunk.fulfilled.match(result)) {
+      toast("Login successful", {
+        type: "success",
+        position: "bottom-start",
+      });
+      navigate("/my-account");
+    } else {
+      toast(result.payload, {
+        type: "error",
+        position: "bottom-center",
+      });
+    }
+  };
+  const handleRegisterChange = (e) => {
+    setRegisterUserData({
+      ...registerUserData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      await registerUser(registerUserData);
+      toast("Registration successful! Please login.", {
+        type: "success",
+        position: "bottom-center",
+      });
+      setRegisterUserData({
+        username: "",
+        password: "",
+        email: "",
+      });
+    } catch (err) {
+      toast(err?.error?.message || "Registration failed", {
+        type: "error",
+        position: "bottom-center",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Fragment>
       <SEO
@@ -17,11 +97,11 @@ const LoginRegister = () => {
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb 
+        <Breadcrumb
           pages={[
-            {label: "Home", path:  "/" },
-            {label: "Login Register", path:  pathname }
-          ]} 
+            { label: "Home", path: "/" },
+            { label: "Login Register", path: pathname },
+          ]}
         />
         <div className="login-register-area pt-100 pb-100">
           <div className="container">
@@ -48,23 +128,25 @@ const LoginRegister = () => {
                             <form>
                               <input
                                 type="text"
-                                name="user-name"
+                                name="username"
                                 placeholder="Username"
+                                onChange={handleLoginChange}
+                                value={loginData.username}
                               />
                               <input
                                 type="password"
-                                name="user-password"
+                                name="password"
                                 placeholder="Password"
+                                onChange={handleLoginChange}
+                                value={loginData.password}
                               />
                               <div className="button-box">
                                 <div className="login-toggle-btn">
                                   <input type="checkbox" />
                                   <label className="ml-10">Remember me</label>
-                                  <Link to={ "/"}>
-                                    Forgot Password?
-                                  </Link>
+                                  <Link to={"/"}>Forgot Password?</Link>
                                 </div>
-                                <button type="submit">
+                                <button onClick={handleLoginSubmit}>
                                   <span>Login</span>
                                 </button>
                               </div>
@@ -78,21 +160,27 @@ const LoginRegister = () => {
                             <form>
                               <input
                                 type="text"
-                                name="user-name"
+                                name="username"
                                 placeholder="Username"
+                                value={registerUserData.username}
+                                onChange={handleRegisterChange}
                               />
                               <input
                                 type="password"
-                                name="user-password"
+                                name="password"
                                 placeholder="Password"
+                                value={registerUserData.password}
+                                onChange={handleRegisterChange}
                               />
                               <input
-                                name="user-email"
+                                name="email"
                                 placeholder="Email"
                                 type="email"
+                                value={registerUserData.email}
+                                onChange={handleRegisterChange}
                               />
                               <div className="button-box">
-                                <button type="submit">
+                                <button onClick={handleSubmit}>
                                   <span>Register</span>
                                 </button>
                               </div>
