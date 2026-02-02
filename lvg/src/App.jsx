@@ -18,7 +18,9 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ToastManager from "./components/ToastManager";
 import IsUserAccountConfirmedRoute from "./routes/IsUserAccountConfirmedRoute";
-import IsLoggedInUser from "./routes/IsLoggedInUser";
+import IsLoggedInUser from "./routes/IsLoginPageAccessibleRoute";
+import IsLoginPageAccessible from "./routes/IsLoginPageAccessibleRoute";
+import AuthenticatedRoute from "./routes/AuthenticatedRoute";
 
 // home pages
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -317,9 +319,9 @@ const App = () => {
             <Route
               path={"/login-register"}
               element={
-                <IsLoggedInUser>
+                <IsLoginPageAccessible>
                   <LoginRegister />
-                </IsLoggedInUser>
+                </IsLoginPageAccessible>
               }
             />
 
@@ -349,9 +351,11 @@ const App = () => {
             <Route
               path={"/checkout"}
               element={
-                <ProtectedRoute>
-                  <Checkout />
-                </ProtectedRoute>
+                <AuthenticatedRoute>
+                  <ProtectedRoute>
+                    <Checkout />
+                  </ProtectedRoute>
+                </AuthenticatedRoute>
               }
             />
 

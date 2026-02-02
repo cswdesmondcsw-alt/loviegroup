@@ -5,13 +5,14 @@ import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
 
 const IconGroup = ({ iconWhiteClass }) => {
-  const handleClick = e => {
+  const { token, user } = useSelector((state) => state.authLogin);
+  const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
 
   const triggerMobileMenu = () => {
     const offcanvasMobileMenu = document.querySelector(
-      "#offcanvas-mobile-menu"
+      "#offcanvas-mobile-menu",
     );
     offcanvasMobileMenu.classList.add("active");
   };
@@ -20,9 +21,9 @@ const IconGroup = ({ iconWhiteClass }) => {
   const { cartItems } = useSelector((state) => state.cart);
 
   return (
-    <div className={clsx("header-right-wrap", iconWhiteClass)} >
+    <div className={clsx("header-right-wrap", iconWhiteClass)}>
       <div className="same-style header-search d-none d-lg-block">
-        <button className="search-active" onClick={e => handleClick(e)}>
+        <button className="search-active" onClick={(e) => handleClick(e)}>
           <i className="pe-7s-search" />
         </button>
         <div className="search-content">
@@ -37,30 +38,30 @@ const IconGroup = ({ iconWhiteClass }) => {
       <div className="same-style account-setting d-none d-lg-block">
         <button
           className="account-setting-active"
-          onClick={e => handleClick(e)}
+          onClick={(e) => handleClick(e)}
         >
           <i className="pe-7s-user-female" />
         </button>
         <div className="account-dropdown">
           <ul>
+            {token == null && (
+              <li>
+                <Link to={"/login-register"}>Login</Link>
+              </li>
+            )}
+            {token == null && (
+              <li>
+                <Link to={"/login-register"}>Register</Link>
+              </li>
+            )}
             <li>
-              <Link to={ "/login-register"}>Login</Link>
-            </li>
-            <li>
-              <Link to={ "/login-register"}>
-                Register
-              </Link>
-            </li>
-            <li>
-              <Link to={ "/my-account"}>
-                my account
-              </Link>
+              <Link to={"/my-account"}>my account</Link>
             </li>
           </ul>
         </div>
       </div>
       <div className="same-style header-compare">
-        <Link to={ "/compare"}>
+        <Link to={"/compare"}>
           <i className="pe-7s-shuffle" />
           <span className="count-style">
             {compareItems && compareItems.length ? compareItems.length : 0}
@@ -68,7 +69,7 @@ const IconGroup = ({ iconWhiteClass }) => {
         </Link>
       </div>
       <div className="same-style header-wishlist">
-        <Link to={ "/wishlist"}>
+        <Link to={"/wishlist"}>
           <i className="pe-7s-like" />
           <span className="count-style">
             {wishlistItems && wishlistItems.length ? wishlistItems.length : 0}
@@ -76,7 +77,7 @@ const IconGroup = ({ iconWhiteClass }) => {
         </Link>
       </div>
       <div className="same-style cart-wrap d-none d-lg-block">
-        <button className="icon-cart" onClick={e => handleClick(e)}>
+        <button className="icon-cart" onClick={(e) => handleClick(e)}>
           <i className="pe-7s-shopbag" />
           <span className="count-style">
             {cartItems && cartItems.length ? cartItems.length : 0}
@@ -86,7 +87,7 @@ const IconGroup = ({ iconWhiteClass }) => {
         <MenuCart />
       </div>
       <div className="same-style cart-wrap d-block d-lg-none">
-        <Link className="icon-cart" to={ "/cart"}>
+        <Link className="icon-cart" to={"/cart"}>
           <i className="pe-7s-shopbag" />
           <span className="count-style">
             {cartItems && cartItems.length ? cartItems.length : 0}
@@ -108,7 +109,5 @@ const IconGroup = ({ iconWhiteClass }) => {
 IconGroup.propTypes = {
   iconWhiteClass: PropTypes.string,
 };
-
-
 
 export default IconGroup;
