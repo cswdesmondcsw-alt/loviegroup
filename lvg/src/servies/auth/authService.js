@@ -9,7 +9,18 @@ export const loginUser = async (loginData) => {
 
     return res.data;
   } catch (error) {
-    console.log("Error", error);
+    throw error.response?.data || error;
+  }
+};
+export const updatePersonalDetails = async (token, userId, userData) => {
+  try {
+    const res = await axios.put(`${API_BASE_URL}/users/${userId}`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data;
+  } catch (error) {
     throw error.response?.data || error;
   }
 };
@@ -22,6 +33,19 @@ export const getMe = async (token) => {
       },
     });
 
+    return res.data;
+  } catch (error) {
+    throw error.response?.data || error;
+  }
+};
+
+export const fetchUserTenantData = async (token) => {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/users/me?populate=tenants`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return res.data;
   } catch (error) {
     throw error.response?.data || error;
