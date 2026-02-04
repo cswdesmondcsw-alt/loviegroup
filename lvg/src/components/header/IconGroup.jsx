@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
+import { logout } from "../../store/slices/authSlice";
 
 const IconGroup = ({ iconWhiteClass }) => {
   const { token, user } = useSelector((state) => state.authLogin);
@@ -19,7 +20,18 @@ const IconGroup = ({ iconWhiteClass }) => {
   const { compareItems } = useSelector((state) => state.compare);
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const { cartItems } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logout());
 
+    toast("Logged out successfully", {
+      type: "success",
+      position: "bottom-start",
+    });
+
+    navigate("/login-register");
+  };
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)}>
       <div className="same-style header-search d-none d-lg-block">
@@ -57,6 +69,22 @@ const IconGroup = ({ iconWhiteClass }) => {
             <li>
               <Link to={"/my-account"}>my account</Link>
             </li>
+            {token && (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                    fontSize: "inherit",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Log out
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
