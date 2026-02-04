@@ -118,8 +118,7 @@ const MyAccount = lazy(() => import("./pages/other/MyAccount"));
 const LoginRegister = lazy(() => import("./pages/other/LoginRegister"));
 const Register = lazy(() => import("./pages/other/Register"));
 const Login = lazy(() => import("./pages/other/Register"));
-const Fpw = lazy(() => import("./pages/other/Register"));
-
+const Fpw = lazy(() => import("./pages/other/Fpw"));
 const Cart = lazy(() => import("./pages/other/Cart"));
 const Wishlist = lazy(() => import("./pages/other/Wishlist"));
 const Compare = lazy(() => import("./pages/other/Compare"));
@@ -127,7 +126,7 @@ const Checkout = lazy(() => import("./pages/other/Checkout"));
 
 const NotFound = lazy(() => import("./pages/other/NotFound"));
 // const EmailConfirmation = lazy(() => import("./pages/other/EmailConfirmation"));
-
+const ResetPassword = lazy(() => import("./pages/other/ResetPassword"));
 const App = () => {
   return (
     <Router>
@@ -352,13 +351,14 @@ const App = () => {
             <Route
               path={"/checkout"}
               element={
-                <AuthenticatedRoute>
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                </AuthenticatedRoute>
+                // <AuthenticatedRoute>
+                <ProtectedRoute>
+                  <Checkout />
+                </ProtectedRoute>
+                // </AuthenticatedRoute>
               }
             />
+            <Route path={"/reset-password"} element={<ResetPassword />} />
             {/* <Route path="/email-confirmation" element={<EmailConfirmation />} /> */}
 
             <Route path="*" element={<NotFound />} />

@@ -12,7 +12,7 @@ import { loginThunk } from "../../store/slices/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const LoginRegister = () => {
-  let { pathname } = useLocation();
+  let location = useLocation();
   const {
     user,
     token,
@@ -20,6 +20,8 @@ const LoginRegister = () => {
     loading: isLoading,
   } = useSelector((state) => state.authLogin);
   const dispatch = useDispatch();
+
+  const redirectTo = location.state?.redirectTo || "/my-account";
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
@@ -49,7 +51,7 @@ const LoginRegister = () => {
         type: "success",
         position: "bottom-start",
       });
-      navigate("/my-account");
+      navigate(redirectTo);
     } else {
       toast(result.payload, {
         type: "error",
@@ -70,10 +72,13 @@ const LoginRegister = () => {
 
     try {
       await registerUser(registerUserData);
-      toast("Registration successful! Please login.", {
-        type: "success",
-        position: "bottom-center",
-      });
+      toast(
+        "Account created! Please check your email for the confirmation link.",
+        {
+          type: "success",
+          position: "bottom-center",
+        },
+      );
       setRegisterUserData({
         username: "",
         password: "",
@@ -99,7 +104,7 @@ const LoginRegister = () => {
         <Breadcrumb
           pages={[
             { label: "Home", path: "/" },
-            { label: "Login Register", path: pathname },
+            { label: "Login Register", path: location.pathname },
           ]}
         />
         <div className="login-register-area pt-100 pb-100">
@@ -143,7 +148,7 @@ const LoginRegister = () => {
                                 <div className="login-toggle-btn">
                                   <input type="checkbox" />
                                   <label className="ml-10">Remember me</label>
-                                  <Link to={"/"}>Forgot Password?</Link>
+                                  <Link to={"/Fpw"}>Forgot Password?</Link>
                                 </div>
                                 <button
                                   onClick={handleLoginSubmit}
