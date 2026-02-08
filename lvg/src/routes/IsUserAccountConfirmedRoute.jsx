@@ -1,10 +1,13 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getMe } from "../servies/auth/authService";
+import { logout } from "../store/slices/authSlice";
 
 const IsUserAccountConfirmedRoute = ({ children }) => {
+  const dispatch = useDispatch();
   const { isAuthenticated, token } = useSelector((state) => state.authLogin);
+
   const [status, setStatus] = useState("loading");
   // loading | allow | home | login
 
@@ -24,12 +27,16 @@ const IsUserAccountConfirmedRoute = ({ children }) => {
           setStatus("allow");
         }
       } catch (error) {
+        // ✅ 401 error → force logout
+        if (error?.error?.status === 401) {
+          dispatch(logout());
+        }
         setStatus("login");
       }
     };
 
     checkAuth();
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated, token, dispatch]);
 
   if (status === "loading") {
     return <p style={{ textAlign: "center" }}>Checking user status...</p>;

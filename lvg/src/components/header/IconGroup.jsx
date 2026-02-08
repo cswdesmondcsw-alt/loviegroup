@@ -66,8 +66,7 @@ const IconGroup = ({ iconWhiteClass }) => {
                 <Link to={"/register"}>Register</Link>
               </li>
             )}
-            {token ==
-            (
+            {token && (
               <li>
                 <Link to={"/my-account"}>my account</Link>
               </li>

@@ -1,98 +1,14 @@
-import { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
-import { registerUser } from "../../servies/auth/authService";
-import { toast } from "../../utils/toastService";
-import { useNavigate } from "react-router-dom";
-import { loginThunk } from "../../store/slices/authSlice";
-import { useSelector, useDispatch } from "react-redux";
 
 const LoginRegister = () => {
-  let location = useLocation();
-  const {
-    user,
-    token,
-    isAuthenticated,
-    loading: isLoading,
-  } = useSelector((state) => state.authLogin);
-  const dispatch = useDispatch();
+  let { pathname } = useLocation();
 
-  const redirectTo = location.state?.redirectTo || "/my-account";
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
-  });
-  const [registerUserData, setRegisterUserData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleLoginChange = (e) => {
-    setLoginData({
-      ...loginData,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-
-    const result = await dispatch(loginThunk(loginData));
-    if (loginThunk.fulfilled.match(result)) {
-      toast("Login successful", {
-        type: "success",
-        position: "bottom-start",
-      });
-      navigate(redirectTo);
-    } else {
-      toast(result.payload, {
-        type: "error",
-        position: "bottom-center",
-      });
-    }
-  };
-  const handleRegisterChange = (e) => {
-    setRegisterUserData({
-      ...registerUserData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      await registerUser(registerUserData);
-      toast(
-        "Account created! Please check your email for the confirmation link.",
-        {
-          type: "success",
-          position: "bottom-center",
-        },
-      );
-      setRegisterUserData({
-        username: "",
-        password: "",
-        email: "",
-      });
-    } catch (err) {
-      toast(err?.error?.message || "Registration failed", {
-        type: "error",
-        position: "bottom-center",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
   return (
     <Fragment>
       <SEO
@@ -104,7 +20,7 @@ const LoginRegister = () => {
         <Breadcrumb
           pages={[
             { label: "Home", path: "/" },
-            { label: "Login Register", path: location.pathname },
+            { label: "Login Register", path: pathname },
           ]}
         />
         <div className="login-register-area pt-100 pb-100">
@@ -132,31 +48,22 @@ const LoginRegister = () => {
                             <form>
                               <input
                                 type="text"
-                                name="username"
+                                name="user-name"
                                 placeholder="Username"
-                                onChange={handleLoginChange}
-                                value={loginData.username}
                               />
                               <input
                                 type="password"
-                                name="password"
+                                name="user-password"
                                 placeholder="Password"
-                                onChange={handleLoginChange}
-                                value={loginData.password}
                               />
                               <div className="button-box">
                                 <div className="login-toggle-btn">
                                   <input type="checkbox" />
                                   <label className="ml-10">Remember me</label>
-                                  <Link to={"/Fpw"}>Forgot Password?</Link>
+                                  <Link to={"/"}>Forgot Password?</Link>
                                 </div>
-                                <button
-                                  onClick={handleLoginSubmit}
-                                  disabled={isLoading}
-                                >
-                                  <span>
-                                    {isLoading ? "Logging in..." : "Login"}
-                                  </span>
+                                <button type="submit">
+                                  <span>Login</span>
                                 </button>
                               </div>
                             </form>
@@ -169,33 +76,22 @@ const LoginRegister = () => {
                             <form>
                               <input
                                 type="text"
-                                name="username"
+                                name="user-name"
                                 placeholder="Username"
-                                value={registerUserData.username}
-                                onChange={handleRegisterChange}
                               />
                               <input
                                 type="password"
-                                name="password"
+                                name="user-password"
                                 placeholder="Password"
-                                value={registerUserData.password}
-                                onChange={handleRegisterChange}
                               />
                               <input
-                                name="email"
+                                name="user-email"
                                 placeholder="Email"
                                 type="email"
-                                value={registerUserData.email}
-                                onChange={handleRegisterChange}
                               />
                               <div className="button-box">
-                                <button
-                                  onClick={handleSubmit}
-                                  disabled={loading}
-                                >
-                                  <span>
-                                    {loading ? "Registering..." : "Register"}
-                                  </span>
+                                <button type="submit">
+                                  <span>Register</span>
                                 </button>
                               </div>
                             </form>

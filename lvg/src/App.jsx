@@ -345,8 +345,6 @@ const App = () => {
               }
             />
 
-            <Route path={"/fpw"} element={<Fpw />} />
-
             <Route path={"/cart"} element={<Cart />} />
             <Route
               path={"/wishlist"}
