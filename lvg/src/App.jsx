@@ -18,9 +18,10 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import ToastManager from "./components/ToastManager";
 import IsUserAccountConfirmedRoute from "./routes/IsUserAccountConfirmedRoute";
-import IsLoggedInUser from "./routes/IsLoginPageAccessibleRoute";
-import IsLoginPageAccessible from "./routes/IsLoginPageAccessibleRoute";
+import IsLoggedInUser from "./routes/PublicRoute";
+import IsLoginPageAccessible from "./routes/PublicRoute";
 import AuthenticatedRoute from "./routes/AuthenticatedRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 // home pages
 const HomeFashion = lazy(() => import("./pages/home/HomeFashion"));
@@ -117,7 +118,7 @@ const Contact = lazy(() => import("./pages/other/Contact"));
 const MyAccount = lazy(() => import("./pages/other/MyAccount"));
 const LoginRegister = lazy(() => import("./pages/other/LoginRegister"));
 const Register = lazy(() => import("./pages/other/Register"));
-const Login = lazy(() => import("./pages/other/Register"));
+const Login = lazy(() => import("./pages/other/Login"));
 const Fpw = lazy(() => import("./pages/other/Fpw"));
 const Cart = lazy(() => import("./pages/other/Cart"));
 const Wishlist = lazy(() => import("./pages/other/Wishlist"));
@@ -127,6 +128,7 @@ const Checkout = lazy(() => import("./pages/other/Checkout"));
 const NotFound = lazy(() => import("./pages/other/NotFound"));
 // const EmailConfirmation = lazy(() => import("./pages/other/EmailConfirmation"));
 const ResetPassword = lazy(() => import("./pages/other/ResetPassword"));
+
 const App = () => {
   return (
     <Router>
@@ -319,15 +321,29 @@ const App = () => {
             <Route
               path={"/login-register"}
               element={
-                <IsLoginPageAccessible>
+                <PublicRoute>
                   <LoginRegister />
-                </IsLoginPageAccessible>
+                </PublicRoute>
               }
             />
 
-            <Route path={"/register"} element={<Register />} />
+            <Route
+              path={"/register"}
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
 
-            <Route path={"/login"} element={<Login />} />
+            <Route
+              path={"/login"}
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
 
             <Route path={"/fpw"} element={<Fpw />} />
 

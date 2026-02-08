@@ -17,7 +17,7 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   function handleSubmit(e) {
-    // ❌ Not logged in (PRD rule)
+    //  Not logged in (PRD rule)
     if (!token) {
       toast("Please login to continue with checkout.", {
         type: "warning",

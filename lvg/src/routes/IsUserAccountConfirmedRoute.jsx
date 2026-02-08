@@ -17,7 +17,7 @@ const IsUserAccountConfirmedRoute = ({ children }) => {
 
       try {
         const user = await getMe(token);
-        console.log("user", user);
+
         if (!user.confirmed) {
           setStatus("home");
         } else {
@@ -36,7 +36,7 @@ const IsUserAccountConfirmedRoute = ({ children }) => {
   }
 
   if (status === "login") {
-    return <Navigate to="/login-register" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   if (status === "home") {

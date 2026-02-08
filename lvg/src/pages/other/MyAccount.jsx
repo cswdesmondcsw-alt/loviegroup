@@ -186,7 +186,7 @@ const MyAccount = () => {
                           <div className="billing-back-btn">
                             <div className="billing-btn">
                               <button onClick={updatePersonalUserData}>
-                                Continue
+                                Update
                               </button>
                             </div>
                           </div>

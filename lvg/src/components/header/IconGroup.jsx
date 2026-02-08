@@ -30,7 +30,7 @@ const IconGroup = ({ iconWhiteClass }) => {
       position: "bottom-start",
     });
 
-    navigate("/login-register");
+    navigate("/login");
   };
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)}>
@@ -58,17 +58,20 @@ const IconGroup = ({ iconWhiteClass }) => {
           <ul>
             {token == null && (
               <li>
-                <Link to={"/login-register"}>Login</Link>
+                <Link to={"/login"}>Login</Link>
               </li>
             )}
             {token == null && (
               <li>
-                <Link to={"/login-register"}>Register</Link>
+                <Link to={"/register"}>Register</Link>
               </li>
             )}
-            <li>
-              <Link to={"/my-account"}>my account</Link>
-            </li>
+            {token ==
+            (
+              <li>
+                <Link to={"/my-account"}>my account</Link>
+              </li>
+            )}
             {token && (
               <li>
                 <button
