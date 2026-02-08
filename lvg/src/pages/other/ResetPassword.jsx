@@ -43,7 +43,7 @@ const ResetPassword = () => {
         position: "bottom-center",
       });
       setTimeout(() => {
-        navigate("/login-register");
+        navigate("/login");
       }, 4000);
     } catch (error) {
       toast(
