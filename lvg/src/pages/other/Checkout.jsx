@@ -1,10 +1,11 @@
 import { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getDiscountPrice } from "../../helpers/product";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import { toast } from "../../utils/toastService";
 
 const Checkout = () => {
   let cartTotalPrice = 0;
@@ -12,6 +13,36 @@ const Checkout = () => {
   let { pathname } = useLocation();
   const currency = useSelector((state) => state.currency);
   const { cartItems } = useSelector((state) => state.cart);
+  const { token } = useSelector((state) => state.authLogin);
+  const navigate = useNavigate();
+
+  function handleSubmit(e) {
+    //  Not logged in (PRD rule)
+    if (!token) {
+      toast("Please login to continue with checkout.", {
+        type: "warning",
+        position: "bottom-center",
+      });
+
+      // PRD: redirect to loginregister.jsx
+      setTimeout(() => {
+        navigate("/login-register", {
+          state: {
+            redirectTo: location.pathname, // checkout
+          },
+        });
+      }, 1500);
+
+      return;
+    }
+
+    // ✅ Logged in → proceed order
+    toast("Order placed successfully.", {
+      type: "success",
+    });
+
+    // order API call here
+  }
 
   return (
     <Fragment>
@@ -21,12 +52,13 @@ const Checkout = () => {
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb 
+        <Breadcrumb
           pages={[
-            {label: "Home", path:  "/" },
-            {label: "Checkout", path:  pathname }
-          ]} 
+            { label: "Home", path: "/" },
+            { label: "Checkout", path: pathname },
+          ]}
         />
+
         <div className="checkout-area pt-95 pb-100">
           <div className="container">
             {cartItems && cartItems.length >= 1 ? (
@@ -142,7 +174,7 @@ const Checkout = () => {
                             {cartItems.map((cartItem, key) => {
                               const discountedPrice = getDiscountPrice(
                                 cartItem.price,
-                                cartItem.discount
+                                cartItem.discount,
                               );
                               const finalProductPrice = (
                                 cartItem.price * currency.currencyRate
@@ -197,7 +229,9 @@ const Checkout = () => {
                       <div className="payment-method"></div>
                     </div>
                     <div className="place-order mt-25">
-                      <button className="btn-hover">Place Order</button>
+                      <button className="btn-hover" onClick={handleSubmit}>
+                        Place Order
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -211,9 +245,7 @@ const Checkout = () => {
                     </div>
                     <div className="item-empty-area__text">
                       No items found in cart to checkout <br />{" "}
-                      <Link to={ "/shop-grid-standard"}>
-                        Shop Now
-                      </Link>
+                      <Link to={"/shop-grid-standard"}>Shop Now</Link>
                     </div>
                   </div>
                 </div>

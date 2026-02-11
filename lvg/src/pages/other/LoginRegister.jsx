@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom"; 
+import { Link, useLocation } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import SEO from "../../components/seo";
@@ -17,11 +17,11 @@ const LoginRegister = () => {
       />
       <LayoutOne headerTop="visible">
         {/* breadcrumb */}
-        <Breadcrumb 
+        <Breadcrumb
           pages={[
-            {label: "Home", path:  "/" },
-            {label: "Login Register", path:  pathname }
-          ]} 
+            { label: "Home", path: "/" },
+            { label: "Login Register", path: pathname },
+          ]}
         />
         <div className="login-register-area pt-100 pb-100">
           <div className="container">
@@ -60,9 +60,7 @@ const LoginRegister = () => {
                                 <div className="login-toggle-btn">
                                   <input type="checkbox" />
                                   <label className="ml-10">Remember me</label>
-                                  <Link to={ "/"}>
-                                    Forgot Password?
-                                  </Link>
+                                  <Link to={"/"}>Forgot Password?</Link>
                                 </div>
                                 <button type="submit">
                                   <span>Login</span>
