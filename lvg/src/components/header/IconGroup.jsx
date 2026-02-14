@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import MenuCart from "./sub-components/MenuCart";
 import { logout } from "../../store/slices/authSlice";
+import { toast } from "../../utils/toastService";
 
 const IconGroup = ({ iconWhiteClass }) => {
   const { token, user } = useSelector((state) => state.authLogin);
@@ -30,7 +31,7 @@ const IconGroup = ({ iconWhiteClass }) => {
       position: "bottom-start",
     });
 
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
   return (
     <div className={clsx("header-right-wrap", iconWhiteClass)}>
