@@ -26,7 +26,7 @@ const Checkout = () => {
 
       // PRD: redirect to loginregister.jsx
       setTimeout(() => {
-        navigate("/login-register", {
+        navigate("/login", {
           state: {
             redirectTo: location.pathname, // checkout
           },

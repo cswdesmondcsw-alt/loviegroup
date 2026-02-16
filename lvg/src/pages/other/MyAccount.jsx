@@ -40,7 +40,7 @@ const MyAccount = () => {
         lastname: userData.lastname,
         email: userData.email,
         telephone: userData.telephone,
-        fox: userData.fox,
+        fax: userData.fax,
       };
       const updatedResponse = await updatePersonalDetails(
         token,
