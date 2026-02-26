@@ -13,32 +13,9 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "user_id": {
-      "type": "uid",
-      "targetField": "username",
-      "required": true
-    },
-    "cloud_role": {
-      "type": "enumeration",
-      "required": true,
-      "enum": [
-        "user",
-        "provider"
-      ]
-    },
     "provider": {
       "type": "string",
       "configurable": false
-    },
-    "cloud_rank": {
-      "type": "enumeration",
-      "required": true,
-      "enum": [
-        "user",
-        "admin",
-        "manager",
-        "executive"
-      ]
     },
     "username": {
       "type": "string",
@@ -46,12 +23,6 @@
       "unique": true,
       "configurable": false,
       "required": true
-    },
-    "country_code": {
-      "type": "integer"
-    },
-    "mobile_no": {
-      "type": "biginteger"
     },
     "email": {
       "type": "email",
@@ -66,16 +37,6 @@
       "configurable": false,
       "private": true,
       "searchable": false
-    },
-    "avatar": {
-      "type": "media",
-      "multiple": false,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
     },
     "resetPasswordToken": {
       "type": "string",
@@ -106,6 +67,45 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "user_id": {
+      "type": "uid",
+      "targetField": "username",
+      "required": false
+    },
+    "cloud_role": {
+      "type": "enumeration",
+      "required": false,
+      "enum": [
+        "user",
+        "provider"
+      ]
+    },
+    "cloud_rank": {
+      "type": "enumeration",
+      "required": false,
+      "enum": [
+        "user",
+        "admin",
+        "manager",
+        "executive"
+      ]
+    },
+    "country_code": {
+      "type": "integer"
+    },
+    "mobile_no": {
+      "type": "biginteger"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
     "otp": {
       "type": "string"
     },
@@ -116,6 +116,18 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tenant.tenant"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
+    },
+    "fax": {
+      "type": "string"
+    },
+    "telephone": {
+      "type": "string"
     }
   }
 }
