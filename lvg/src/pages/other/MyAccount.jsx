@@ -1,14 +1,81 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import SEO from "../../components/seo";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import AccountSidebar from "../../components/user-dashboard/AccountSidebar";
+import {
+  fetchUserTenantData,
+  updatePersonalDetails,
+} from "../../servies/auth/authService";
+import { useSelector } from "react-redux";
+import { toast } from "../../utils/toastService";
 
 const MyAccount = () => {
   const { pathname } = useLocation();
+  const { token, user } = useSelector((state) => state.authLogin);
+  const [userData, setUserData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    telephone: "",
+    tenants: [],
+    fax: "",
+  });
 
+  const handleUserDataChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  async function updatePersonalUserData(event) {
+    event.preventDefault();
+    try {
+      let payload = {
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        email: userData.email,
+        telephone: userData.telephone,
+        fax: userData.fax,
+      };
+      const updatedResponse = await updatePersonalDetails(
+        token,
+        user.id,
+        payload,
+      );
+
+      toast("Profile Updated Successfully!", {
+        type: "success",
+        position: "bottom-center",
+      });
+    } catch (error) {
+      const errorMsg =
+        error.error.details?.errors?.[0]?.message || "Update failed!";
+      toast(`${errorMsg}`, {
+        type: "error",
+        position: "bottom-center",
+      });
+    }
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchUserTenantData(token);
+
+      setUserData({
+        firstname: data.firstname,
+        lastname: data.lastname,
+        email: data.email,
+        telephone: data.telephone,
+        fax: data.fax,
+      });
+    };
+    fetchData();
+  }, []);
   return (
     <Fragment>
       {/* SEO Meta Tags */}
@@ -22,8 +89,8 @@ const MyAccount = () => {
         {/* Breadcrumb Navigation */}
         <Breadcrumb
           pages={[
-            { label: "Home", path:  "/" },
-            { label: "My Account", path:  pathname },
+            { label: "Home", path: "/" },
+            { label: "My Account", path: pathname },
           ]}
         />
 
@@ -41,7 +108,10 @@ const MyAccount = () => {
                 <div className="myaccount-wrapper">
                   <Accordion defaultActiveKey="0">
                     {/* 1. Edit Account Info */}
-                    <Accordion.Item eventKey="0" className="single-my-account mb-20">
+                    <Accordion.Item
+                      eventKey="0"
+                      className="single-my-account mb-20"
+                    >
                       <Accordion.Header>
                         <span>1.</span> Edit your account information
                       </Accordion.Header>
@@ -55,37 +125,69 @@ const MyAccount = () => {
                             <div className="col-lg-6 col-md-6">
                               <div className="billing-info">
                                 <label>First Name</label>
-                                <input type="text" placeholder="John" />
+                                <input
+                                  type="text"
+                                  placeholder="John"
+                                  value={userData.firstname}
+                                  name="firstname"
+                                  onChange={handleUserDataChange}
+                                />
                               </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
                               <div className="billing-info">
                                 <label>Last Name</label>
-                                <input type="text" placeholder="Doe" />
+                                <input
+                                  type="text"
+                                  placeholder="Doe"
+                                  value={userData.lastname}
+                                  name="lastname"
+                                  onChange={handleUserDataChange}
+                                />
                               </div>
                             </div>
                             <div className="col-lg-12 col-md-12">
                               <div className="billing-info">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="you@example.com" />
+                                <input
+                                  type="email"
+                                  placeholder="you@example.com"
+                                  value={userData.email}
+                                  name="email"
+                                  onChange={handleUserDataChange}
+                                />
                               </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
                               <div className="billing-info">
                                 <label>Telephone</label>
-                                <input type="text" placeholder="+1 234 567 890" />
+                                <input
+                                  type="text"
+                                  placeholder="+1 234 567 890"
+                                  value={userData.telephone}
+                                  name="telephone"
+                                  onChange={handleUserDataChange}
+                                />
                               </div>
                             </div>
                             <div className="col-lg-6 col-md-6">
                               <div className="billing-info">
                                 <label>Fax</label>
-                                <input type="text" placeholder="(optional)" />
+                                <input
+                                  type="text"
+                                  placeholder="(optional)"
+                                  value={userData.fax}
+                                  name="fax"
+                                  onChange={handleUserDataChange}
+                                />
                               </div>
                             </div>
                           </div>
                           <div className="billing-back-btn">
                             <div className="billing-btn">
-                              <button type="submit">Continue</button>
+                              <button onClick={updatePersonalUserData}>
+                                Update
+                              </button>
                             </div>
                           </div>
                         </div>
@@ -93,7 +195,10 @@ const MyAccount = () => {
                     </Accordion.Item>
 
                     {/* 2. Change Password */}
-                    <Accordion.Item eventKey="1" className="single-my-account mb-20">
+                    <Accordion.Item
+                      eventKey="1"
+                      className="single-my-account mb-20"
+                    >
                       <Accordion.Header>
                         <span>2.</span> Change your password
                       </Accordion.Header>
@@ -127,7 +232,10 @@ const MyAccount = () => {
                     </Accordion.Item>
 
                     {/* 3. Modify Address Book */}
-                    <Accordion.Item eventKey="2" className="single-my-account mb-20">
+                    <Accordion.Item
+                      eventKey="2"
+                      className="single-my-account mb-20"
+                    >
                       <Accordion.Header>
                         <span>3.</span> Modify your address book entries
                       </Accordion.Header>
