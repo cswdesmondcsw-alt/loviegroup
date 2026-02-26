@@ -1106,10 +1106,8 @@ export interface PluginUsersPermissionsUser
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     cloud_rank: Schema.Attribute.Enumeration<
       ['user', 'admin', 'manager', 'executive']
-    > &
-      Schema.Attribute.Required;
-    cloud_role: Schema.Attribute.Enumeration<['user', 'provider']> &
-      Schema.Attribute.Required;
+    >;
+    cloud_role: Schema.Attribute.Enumeration<['user', 'provider']>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     country_code: Schema.Attribute.Integer;
@@ -1122,6 +1120,9 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    fax: Schema.Attribute.String;
+    firstname: Schema.Attribute.String;
+    lastname: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1143,11 +1144,12 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    telephone: Schema.Attribute.String;
     tenants: Schema.Attribute.Relation<'oneToMany', 'api::tenant.tenant'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user_id: Schema.Attribute.UID<'username'> & Schema.Attribute.Required;
+    user_id: Schema.Attribute.UID<'username'>;
     username: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
